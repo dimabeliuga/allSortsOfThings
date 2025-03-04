@@ -2,7 +2,6 @@
  * @file BoostCommandParser.cpp
  * @author DB
  * @brief programm to learn how to use <boost/program_options.hpp>
- * https://www.boost.org/doc/libs/1_79_0/doc/html/program_options.html#id-1.3.30.3 - documentation
  * @copyright Copyright (c) 2025
  */
 
