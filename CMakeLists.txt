@@ -1,13 +1,15 @@
 cmake_minimum_required(VERSION 3.20)
-project(SomeCode LANGUAGES CXX)
+project(TrainingProgramme LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Boost REQUIRED COMPONENTS filesystem system program_options)
+add_library(LibraryForTesting src/Templates.cpp)
+target_include_directories(LibraryForTesting PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
-include_directories(${Boost_INCLUDE_DIRS})
+add_executable(${PROJECT_NAME} src/main.cpp)
+target_link_libraries(${PROJECT_NAME} PRIVATE LibraryForTesting)
 
-add_executable(${CMAKE_PROJECT_NAME} src/BoostOptional.cpp)
+enable_testing()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
+add_subdirectory(tests)

@@ -18,7 +18,6 @@ int main(){
     // check if the variant is valueless by exception
     if(myVariant.valueless_by_exception()){
         std::cout << "myVariant is valueless by exception\n";
-        
         myVariant = 5;
         std::cout << std::get<int>(myVariant) << '\n';
         myVariant = 3.14;
