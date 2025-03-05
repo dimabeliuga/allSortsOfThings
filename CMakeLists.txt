@@ -8,6 +8,6 @@ find_package(Boost REQUIRED COMPONENTS filesystem system program_options)
 
 include_directories(${Boost_INCLUDE_DIRS})
 
-add_executable(${CMAKE_PROJECT_NAME} src/Any.cpp)
+add_executable(${CMAKE_PROJECT_NAME} src/BoostOptional.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
