@@ -57,6 +57,16 @@ namespace {  // Добавляем анонимное пространство �
         }
         EXPECT_EQ(container.getSize(), 6);
     }
+    TEST(UserContainerTest, test_UserContainerImproved){
+        userContainerImpoved<int, 6> container;
+        container.fillWithIota(0);
+        EXPECT_EQ(container.getValue(0), 0);
+        EXPECT_EQ(container.getValue(1), 1);
+        EXPECT_EQ(container.getValue(2), 2);
+        container.setValue(5, 10);
+        EXPECT_EQ(container.getValue(0), 10);
+        EXPECT_EQ(container.getSize(), 6);
+    }
 }
 
 int main(int argc, char **argv) {
