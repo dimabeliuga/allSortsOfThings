@@ -6,4 +6,9 @@ void userImplementation::outputAllNumberBits(int64_t num){
         std::cout << bit;
     }
 }
-    
+
+void UserClass::printUserInformation() const{
+    std::cout << "Name: " << name << std::endl;
+    std::cout << "Age: " << static_cast<int>(age) << std::endl;
+}
+
