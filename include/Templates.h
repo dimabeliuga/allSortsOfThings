@@ -21,7 +21,6 @@ namespace userImplementation{
     void outputAllNumberBits(int32_t num);
 }
 
-
 template<class T>
 class UserContainer{
     private:

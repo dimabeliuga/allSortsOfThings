@@ -4,7 +4,6 @@ bool operator>(const UserClass& first, const UserClass& second){
     return first.getAge() > second.getAge();
 }
 
-
 bool operator<(const UserClass& first, const UserClass& second){
     return first.getAge() < second.getAge();
 }
@@ -16,6 +15,7 @@ std::ostream& operator<<(std::ostream& os, const UserClass& user){
     os << "Age: " << static_cast<int>(user.getAge()) << std::endl;
     return os;
 }
+
 
 
 void userImplementation::outputAllNumberBits(int32_t num){

@@ -5,6 +5,7 @@
 #include <type_traits>
 #include <concepts>
 #include <optional>
+#include <cstdint>
 
 //* concepts
 template <typename T>
@@ -24,7 +25,6 @@ concept check_type_for_sum_function = requires(T t) {
     { t + t } -> std::same_as<T>;
 };
 
-
 template <typename T>
 concept operation = requires (T a, T b) {
     { a + b } -> std::same_as<T>;
@@ -35,6 +35,13 @@ concept operation = requires (T a, T b) {
 template <typename T>
 concept is_container = requires(T container, int container_size){
     container[container_size];
+};
+
+template <typename T>
+concept is_pointer = requires(T pointer, int num) {
+    {pointer[num]};
+    {pointer + num} -> std::same_as<T>;
+    {pointer - num} -> std::same_as<T>;
 };
 
 void user_command(int32_t& command){
@@ -48,47 +55,13 @@ void user_command(int32_t& command){
 }
 
 template <operation T>
-std::optional<T> calculator(T a, T b) {
-    int32_t command{};
-    user_command(command);
-
-    switch (command)
-    {
-    case 0:
-        return a + b;
-        break;
-    case 1:
-        return a - b;
-        break;
-    case 2:
-        return a * b;
-        break;
-    case 3:
-        if(b == 0){
-            return std::nullopt;
-        }
-        return a / b;
-        break;
-    default:
-        std::cout << "Invalid command" << std::endl;
-        return std::nullopt;
-    }
-}
+std::optional<T> calculator(T a, T b);
 
 //* This function will only accept int or double types
-/* template <typename T> requires std::is_same<T, int>::value || std::is_same<T, double>::value
-T sum(T a, T b) {
-    return a + b;
-} */
-
-// template <typename T>
-// T sum(T a, T b) requires check_type_for_sum_function<T> 
 template <check_type_for_sum_function T> // shorten version
-T sum(T a, T b) {
-    return a + b;
-}
+T sum(T a, T b);
 
-
+#include "TemplateRequires.inl"
 
 
 #endif // TEMPLATE_REQUIRES_H

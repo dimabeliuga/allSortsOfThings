@@ -2,7 +2,8 @@
 #include <cassert>
 #include <vector>
 #include <string>
-#include "TemplateRequires.h"
+#include <optional>
+#include "C++11Features.h"
 
 template <typename T>
 void output_optional(std::optional<T> opt){
@@ -14,7 +15,24 @@ void output_optional(std::optional<T> opt){
 }
 
 int main(){
-    assert((sum(1, 2) == 3));
+    std::vector<Student> students = {
+        {"Alice", 20, 3.8, 5},
+        {"Bob", 22, 3.5, 2},
+        {"Charlie", 19, 3.9, 8},
+        {"Diana", 21, 3.7, 4}
+    };
+    auto filtered = filterStudents(students, 7.0);
+    for(auto iter : filtered){
+        std::cout << calculateScore(iter) << "   " << iter.getName() << std::endl;
+    }
+    return 0;
+}
+
+
+
+
+
+/* assert((sum(1, 2) == 3));
     std::cout << "Double sum: " << sum(1.1, 2.2) << std::endl;
 
     std::cout << "Less than int(char): " << std::boolalpha << less_than_int<char> << std::endl;
@@ -46,11 +64,17 @@ int main(){
     output_optional(calculator(1.1, 2.2));
     output_optional(calculator(1.1f, 2.2f));
     output_optional(calculator(1.1l, 2.2l));
-    
+ 
     std::cout << "Is container(int) : " << std::boolalpha << is_container<int> << std::endl;
     std::cout << "Is container(char[]) : " << std::boolalpha << is_container<char[]> << std::endl;
     std::cout << "Is container(std::string) : " << std::boolalpha << is_container<std::string> << std::endl;
     std::cout << "Is container(std::vector<int>) : " << std::boolalpha << is_container<std::vector<int>> << std::endl;
+
+    std::cout << "Is int pointer - " << std::boolalpha << is_pointer<int> << std::endl;
+    std::cout << "Is int[] pointer - " << std::boolalpha << is_pointer<int[]> << std::endl;
+    std::cout << "Is int* pointer - " << std::boolalpha << is_pointer<int*> << std::endl;
+    std::cout << "Is char* pointer - " << std::boolalpha << is_pointer<char*> << std::endl;
+    std::cout << "Is unique_ptr pointer<int[]> - " << std::boolalpha << is_pointer<std::unique_ptr<int[]>> << std::endl;
+    std::cout << "Is vector<int> pointer - " << std::boolalpha << is_pointer<std::vector<int>> << std::endl;
+     */
     
-    return 0;
-}

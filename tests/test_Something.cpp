@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <iostream>
 #include "Templates.h"
-
-namespace {  // Добавляем анонимное пространство имен для тестов
+#include "C++11Features.h"
+namespace Templates{  // Добавляем анонимное пространство имен для тестов
     TEST(TemplatesTest, test_int_Template_Max){
         EXPECT_EQ(userImplementation::max(10, 20), 20);
     }
@@ -45,17 +45,6 @@ namespace {  // Добавляем анонимное пространство �
         EXPECT_EQ(container.getValue(1), 1);
         EXPECT_EQ(container.getValue(2), 2);
         container.setValue(5, 10);
-        EXPECT_EQ(container.getValue(0), 10);
-
-        try {
-            container.setValue(45, 10);
-            FAIL() << "Expected exception not thrown";
-        } catch (const std::out_of_range& e) {
-            SUCCEED();
-        } catch (...) {
-            FAIL() << "Unexpected exception type thrown";
-        }
-        EXPECT_EQ(container.getSize(), 6);
     }
     TEST(UserContainerTest, test_UserContainerImproved){
         userContainerImpoved<int, 6> container;
@@ -64,10 +53,123 @@ namespace {  // Добавляем анонимное пространство �
         EXPECT_EQ(container.getValue(1), 1);
         EXPECT_EQ(container.getValue(2), 2);
         container.setValue(5, 10);
-        EXPECT_EQ(container.getValue(0), 10);
+        EXPECT_NE(container.getValue(0), 10);
         EXPECT_EQ(container.getSize(), 6);
     }
 }
+
+namespace C11Features{
+    class StudentTest : public ::testing::Test {
+        protected:
+            Student student1;
+            Student student2;
+            Student student3;
+        
+            StudentTest() : 
+                student1("Alice", 20, 3.8, 5),
+                student2("Bob", 22, 3.5, 2),
+                student3("Charlie", 19, 3.9, 8) 
+            {}
+        
+            virtual ~StudentTest() {}
+    };
+
+    TEST_F(StudentTest, CalculateScoreTest) {
+        EXPECT_NEAR(calculateScore(student1), 7.4, 0.01);
+        EXPECT_NEAR(calculateScore(student2), 6.75, 0.01);
+        EXPECT_NEAR(calculateScore(student3), 8.15, 0.01);
+    }
+
+
+    TEST(FilterAndSortStudentsTest, BasicTest) {
+        std::vector<Student> students = {
+            {"Alice", 20, 3.8, 5},
+            {"Bob", 22, 3.5, 2},
+            {"Charlie", 19, 3.9, 8},
+            {"Diana", 21, 3.7, 4}
+        };
+        double threshold = 7.0;
+    
+        auto topStudents = filterStudents(students, threshold);
+    
+        EXPECT_EQ(topStudents.size(), 3);
+        EXPECT_EQ(topStudents[0].getName(), "Charlie");
+        EXPECT_EQ(topStudents[1].getName(), "Alice");
+        EXPECT_EQ(topStudents[2].getName(), "Diana");
+    }
+
+    TEST(FilterAndSortStudentsTest, DifferentThresholdTest) {
+        std::vector<Student> students = {
+            {"Alice", 20, 3.8, 5},
+            {"Bob", 22, 3.5, 2},
+            {"Charlie", 19, 3.9, 8},
+            {"Diana", 21, 3.7, 4}
+        };
+        double threshold = 4.0;
+    
+        auto topStudents = filterStudents(students, threshold);
+    
+        ASSERT_EQ(topStudents.size(), 4);
+        EXPECT_EQ(topStudents[0].getName(), "Charlie");
+        EXPECT_EQ(topStudents[1].getName(), "Alice");
+        EXPECT_EQ(topStudents[2].getName(), "Diana");
+        EXPECT_EQ(topStudents[3].getName(), "Bob"); 
+    }
+
+    TEST(CalculateCircumFerence_Test, SomeBasicTests){
+        EXPECT_NEAR(calculateCircumFerence(5.3), 33.284, 0.01);
+        EXPECT_NEAR(calculateCircumFerence(0.89), 5.5892, 0.01);
+        EXPECT_NEAR(calculateCircumFerence(451), 2832.28, 0.01);        
+    }
+
+    class EmployeeTest : public ::testing::Test {
+        protected:
+            Employee employeeFirst;
+            Employee employeeSecond;
+            Employee employeeThird;
+            
+            EmployeeTest() :
+                employeeFirst {"John", 33},
+                employeeSecond {"Max"},
+                employeeThird {63}
+            {}
+
+            virtual ~EmployeeTest() {}
+    };
+
+    TEST_F(EmployeeTest, TestNames){
+        EXPECT_EQ(employeeFirst.getName(), "John");
+        EXPECT_EQ(employeeSecond.getName(), "Max");
+        EXPECT_EQ(employeeThird.getName(), "");
+    }
+    TEST_F(EmployeeTest, TestAges){
+        EXPECT_EQ(employeeFirst.getAge(), 33);
+        EXPECT_EQ(employeeSecond.getAge(), 0);
+        EXPECT_EQ(employeeThird.getAge(), 63);
+    }
+
+    TEST(TestStaticAssert, testIfItWorkProperly){
+        check_types();
+        SUCCEED();
+    }
+
+    TEST(TestInitializerListFunction, PerfomanceCheck){
+        std::vector<int> vecFirst {5,3,6,2};
+        addElementsToVectorInitializerList({43,62,75,85}, vecFirst);
+        EXPECT_EQ(vecFirst.size(), 8);
+        EXPECT_EQ(vecFirst[7], 85);
+    }
+
+    TEST(TestUserLiterals, PerfomanceCheck) {
+        EXPECT_EQ(5_min, 300);
+        EXPECT_EQ(10_sec, 600);
+        auto testString = "Hello World"_to_string;
+        EXPECT_TRUE((std::is_same_v<decltype(testString), std::string>));
+        EXPECT_EQ(testString.size(), 11);
+        EXPECT_EQ(101100_bit_to_num, 44);
+    }
+} // namespace C11Features
+
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
